@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-class AppWidget extends StatelessWidget{
+class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
 
-  @override
+ @override
   Widget build(BuildContext context) {
-    throw const  Placeholder();
+    return MaterialApp.router(
+      title: 'Tic Tac Toe',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      routerConfig: Modular.routerConfig,
+    );
   }
-
 }
