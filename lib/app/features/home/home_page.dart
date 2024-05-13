@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
             child: const Text('Consegue me derrotar?'),
           ),
           ElevatedButton(
-            onPressed: () => Modular.to.pushNamed('/game/online'),
+            onPressed: () => Modular.to.pushNamed('/online'),
             child: const Text('Chame um amigo'),
           ),
         ],
