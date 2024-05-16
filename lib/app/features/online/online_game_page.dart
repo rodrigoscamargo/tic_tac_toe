@@ -34,12 +34,17 @@ class _OnlineGamePageState extends State<OnlineGamePage> {
                             SizedBox(
                               height: 500,
                               child: ValueListenableBuilder(
-                                  valueListenable: controller.board,
-                                  builder: (_, board, __) {
-                                    return TicTacToeBoard(
-                                      board: board,
-                                      makeMove: (index){},
-                                    );
+                                  valueListenable: controller.wait,
+                                  builder: (_, wait, __) {
+                                    return ValueListenableBuilder(
+                                        valueListenable: controller.board,
+                                        builder: (_, board, __) {
+                                          return TicTacToeBoard(
+                                            board: board,
+                                            makeMove: controller.makeMove,
+                                            wait: wait,
+                                          );
+                                        });
                                   }),
                             )
                           else

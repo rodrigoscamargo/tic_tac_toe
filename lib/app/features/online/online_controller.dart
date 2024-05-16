@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/app/features/game/game_controller.dart';
 import 'package:tic_tac_toe/app/features/online/models/action_type.dart';
 import 'package:tic_tac_toe/app/features/online/models/message.dart';
+import 'package:tic_tac_toe/app/features/online/models/play.dart';
 import 'package:web_socket_client/web_socket_client.dart';
 
 class OnlineController {
@@ -21,6 +22,7 @@ class OnlineController {
   final board = ValueNotifier<List<PieceType>>(List.filled(9, PieceType.empty));
   final opponent = ValueNotifier<String?>(null);
   final ready = ValueNotifier<bool>(false);
+  final wait = ValueNotifier<bool>(false);
 
   String? player;
 
@@ -45,13 +47,36 @@ class OnlineController {
           }
 
         case ActionType.game:
-        // TODO: Handle this case.
+          {
+            game(messageData.params!.play!);
+          }
         case ActionType.ready:
-        {
-          ready.value = true;
-        }
+          {
+            ready.value = true;
+          }
       }
     });
+  }
+
+  void game(Play play) {
+    ticTacToe.move(play.position);
+
+    wait.value = false;
+  }
+
+  void makeMove(int position) {
+    ws.send(
+      jsonEncode({
+        'type': 'game',
+        'params': {
+          'room': room.value,
+          'play': {
+            'position': position,
+          }
+        }
+      }),
+    );
+    wait.value = true;
   }
 
   Future<void> createRoom() async {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tic_tac_toe/app/features/game/game_controller.dart';
 import 'package:tic_tac_toe/app/features/game/game_page.dart';
@@ -13,7 +14,9 @@ class OnlineModule extends Module {
     i.add<TicTacToe>(TicTacToeImpl.new);
     i.add(
       () => WebSocket(
-        Uri.parse('ws://10.0.2.2:1234'),
+        kIsWeb
+            ? Uri.parse('ws://localhost:1234')
+            : Uri.parse('ws://10.0.2.2:1234'),
       ),
     );
   }
