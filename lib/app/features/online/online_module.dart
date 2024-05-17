@@ -4,7 +4,9 @@ import 'package:tic_tac_toe/app/features/game/game_controller.dart';
 import 'package:tic_tac_toe/app/features/game/game_page.dart';
 import 'package:tic_tac_toe/app/features/online/online_controller.dart';
 import 'package:tic_tac_toe/app/features/online/online_game_page.dart';
-import 'package:tic_tac_toe/app/features/online/online_page.dart';
+import 'package:tic_tac_toe/app/features/online/pages/create_page.dart';
+import 'package:tic_tac_toe/app/features/online/pages/join_page.dart';
+import 'package:tic_tac_toe/app/features/online/pages/online_page.dart';
 import 'package:web_socket_client/web_socket_client.dart';
 
 class OnlineModule extends Module {
@@ -24,6 +26,8 @@ class OnlineModule extends Module {
   @override
   void routes(RouteManager r) {
     r.child('/', child: (_) => const OnlinePage());
+    r.child('/create', child: (_) => const CreatePage());
+    r.child('/join', child: (_) => const JoinPage());
     r.child('/game', child: (_) => const OnlineGamePage());
   }
 }

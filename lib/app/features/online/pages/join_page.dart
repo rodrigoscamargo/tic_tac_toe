@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_buttom.dart';
+import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_text_field.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class JoinPage extends StatefulWidget {
+  const JoinPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<JoinPage> createState() => _JoinPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _JoinPageState extends State<JoinPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -19,23 +20,23 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TicTacToeButton(
-              text: 'Cara a Cara',
-              onTap: () => Modular.to.pushNamed('/game/vis-a-vis'),
+            const TicTacToeTextField(
+              label: 'Jogador',
+              text: 'text',
             ),
             const SizedBox(
               height: 8,
             ),
-            TicTacToeButton(
-              text: 'Consegue me derrotar?',
-              onTap: () => Modular.to.pushNamed('/game/ai'),
+            const TicTacToeTextField(
+              label: 'Sala',
+              text: 'text',
             ),
             const SizedBox(
-              height: 8,
+              height: 16,
             ),
             TicTacToeButton(
-              text: 'Chame um amigo',
-              onTap: () => Modular.to.pushNamed('/online'),
+              text: 'Entrar na sala',
+              onTap: () => Modular.to.pushNamed('/online/game'),
             ),
           ],
         ),
