@@ -5,8 +5,8 @@ class GameController {
 
   GameController({required this.ticTacToe});
 
-  final currentPiece = ValueNotifier<PieceType>(PieceType.empty);
-  final board = ValueNotifier<List<PieceType>>(List.filled(9, PieceType.empty));
+  final currentPiece = ValueNotifier<SideType>(SideType.empty);
+  final board = ValueNotifier<List<SideType>>(List.filled(9, SideType.empty));
 
   void makeMove(int index) {
     {
@@ -32,8 +32,8 @@ class GameController {
 }
 
 abstract class TicTacToe {
-  late List<PieceType> board = List.filled(9, PieceType.empty);
-  PieceType currentPiece = PieceType.empty;
+  late List<SideType> board = List.filled(9, SideType.empty);
+  SideType currentPiece = SideType.empty;
 
   void move(int index);
   bool canMove(int index);
@@ -42,4 +42,15 @@ abstract class TicTacToe {
   bool verifyTie();
 }
 
-enum PieceType { O, X, empty }
+enum SideType {
+  O('O'),
+  X('X'),
+  empty('empty');
+
+  final String side;
+
+  const SideType(this.side);
+
+  static SideType? fromString(String? value) =>
+      switch (value) { "O" => O, "X" => X, "empty" => empty, _ => null };
+}

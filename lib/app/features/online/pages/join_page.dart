@@ -11,6 +11,9 @@ class JoinPage extends StatefulWidget {
 }
 
 class _JoinPageState extends State<JoinPage> {
+  final playerTextEditingController = TextEditingController();
+  final roomTextEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -20,16 +23,18 @@ class _JoinPageState extends State<JoinPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TicTacToeTextField(
+            TicTacToeTextField(
               label: 'Jogador',
-              text: 'text',
+              controller: playerTextEditingController,
+              onChanged: (value) {},
             ),
             const SizedBox(
               height: 8,
             ),
-            const TicTacToeTextField(
+            TicTacToeTextField(
               label: 'Sala',
-              text: 'text',
+              controller: roomTextEditingController,
+              onChanged: (value) {},
             ),
             const SizedBox(
               height: 16,

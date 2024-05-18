@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tic_tac_toe/app/features/online/models/player.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_buttom.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_text_field.dart';
+import 'package:uuid/uuid.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({super.key});
@@ -11,6 +13,8 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
+  final playerTextEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -20,16 +24,25 @@ class _CreatePageState extends State<CreatePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TicTacToeTextField(
+            TicTacToeTextField(
+              controller: playerTextEditingController,
               label: 'Jogador',
-              text: 'text',
+              onChanged: (value) {},
             ),
             const SizedBox(
               height: 16,
             ),
             TicTacToeButton(
               text: 'Criar sala',
-              onTap: () => Modular.to.pushNamed('/online/game'),
+              onTap: () => Modular.to.pushNamed(
+                '/online/game',
+                arguments: {
+                  'player': Player(
+                    id: const Uuid().v4(),
+                    name: playerTextEditingController.text,
+                  )
+                },
+              ),
             ),
           ],
         ),

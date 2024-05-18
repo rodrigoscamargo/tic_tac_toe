@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tic_tac_toe/app/features/online/models/player.dart';
 import 'package:tic_tac_toe/app/features/online/online_controller.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_appbar.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_board.dart';
 
 class OnlineGamePage extends StatefulWidget {
-  const OnlineGamePage({super.key});
+  const OnlineGamePage({
+    super.key,
+    required this.player,
+    this.room,
+  });
+
+  final Player player;
+  final String? room;
 
   @override
   State<OnlineGamePage> createState() => _OnlineGamePageState();
@@ -17,7 +25,16 @@ class _OnlineGamePageState extends State<OnlineGamePage> {
   @override
   void initState() {
     super.initState();
-    //TODO: Criar ou  entrar na sala
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.room == null) {
+        controller.player.value = widget.player;
+        controller.createRoom();
+      } else {
+        controller.room.value = widget.room;
+        controller.joinRoom();
+      }
+    });
   }
 
   @override
@@ -93,8 +110,8 @@ class RoomDetail extends StatelessWidget {
   }
 }
 
-class ChoosePiece extends StatelessWidget {
-  const ChoosePiece({super.key});
+class ChooseSide extends StatelessWidget {
+  const ChooseSide({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +131,9 @@ class WaitingOpponent extends StatelessWidget {
           horizontal: 24,
         ),
         child: Center(
-          child: CircularProgressIndicator(color: Colors.white,),
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
         ),
       ),
     );

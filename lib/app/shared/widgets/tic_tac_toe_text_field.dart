@@ -4,12 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TicTacToeTextField extends StatelessWidget {
   final String label;
-  final String text;
+  final TextEditingController controller;
+  final Function(String) onChanged;
 
   const TicTacToeTextField({
     super.key,
     required this.label,
-    required this.text,
+    required this.controller,
+    required this.onChanged,
   });
 
   @override
@@ -33,10 +35,12 @@ class TicTacToeTextField extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
             child: TextField(
+              controller: controller,
               inputFormatters: [LengthLimitingTextInputFormatter(15)],
               style: const TextStyle(
                 color: Colors.white,
               ),
+              onChanged: onChanged,
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
                 fillColor: Color(0XFF27175D),

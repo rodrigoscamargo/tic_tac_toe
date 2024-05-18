@@ -61,12 +61,12 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
               ),
               itemCount: board.length,
               itemBuilder: (context, index) {
-                if (board[index] == PieceType.X) {
+                if (board[index] == SideType.X) {
                   return const Card(
                     child: Text('X'),
                   );
                 }
-                if (board[index] == PieceType.O) {
+                if (board[index] == SideType.O) {
                   return const Card(
                     child: Text('O'),
                   );
@@ -85,20 +85,20 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
 
 class TicTacToeImpl implements TicTacToe {
   TicTacToeImpl({
-    this.currentPiece = PieceType.X,
+    this.currentPiece = SideType.X,
   }) {
-    board = List.filled(9, PieceType.empty);
+    board = List.filled(9, SideType.empty);
   }
 
   @override
-  late List<PieceType> board;
+  late List<SideType> board;
 
   @override
-  PieceType currentPiece;
+  SideType currentPiece;
 
   @override
   bool canMove(int index) {
-    return board[index] == PieceType.empty;
+    return board[index] == SideType.empty;
   }
 
   @override
@@ -108,13 +108,13 @@ class TicTacToeImpl implements TicTacToe {
 
   @override
   void nextTurn() {
-    if (currentPiece == PieceType.X) {
-      currentPiece = PieceType.O;
+    if (currentPiece == SideType.X) {
+      currentPiece = SideType.O;
       return;
     }
 
-    if (currentPiece == PieceType.O) {
-      currentPiece = PieceType.X;
+    if (currentPiece == SideType.O) {
+      currentPiece = SideType.X;
       return;
     }
   }
@@ -136,6 +136,6 @@ class TicTacToeImpl implements TicTacToe {
 
   @override
   bool verifyTie() {
-    return !board.contains(PieceType.empty);
+    return !board.contains(SideType.empty);
   }
 }

@@ -9,7 +9,7 @@ class TicTacToeBoard extends StatefulWidget {
     this.wait = false,
   });
 
-  final List<PieceType> board;
+  final List<SideType> board;
   final Function(int) makeMove;
   final bool? wait;
 
@@ -27,14 +27,14 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
         ),
         itemCount: widget.board.length,
         itemBuilder: (context, index) {
-          if (widget.board[index] == PieceType.X) {
-            return const Card(
-              child: Text('X'),
+          if (widget.board[index] == SideType.X) {
+            return Card(
+              child: Text(SideType.X.side),
             );
           }
-          if (widget.board[index] == PieceType.O) {
-            return const Card(
-              child: Text('O'),
+          if (widget.board[index] == SideType.O) {
+            return Card(
+              child: Text(SideType.O.side),
             );
           }
 

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/app/features/game/game_controller.dart';
 import 'package:tic_tac_toe/app/features/online/models/action_type.dart';
 import 'package:tic_tac_toe/app/features/online/models/message.dart';
+import 'package:tic_tac_toe/app/features/online/models/params.dart';
 import 'package:tic_tac_toe/app/features/online/models/play.dart';
+import 'package:tic_tac_toe/app/features/online/models/player.dart';
 import 'package:web_socket_client/web_socket_client.dart';
 
 class OnlineController {
@@ -19,12 +21,11 @@ class OnlineController {
   }
 
   final room = ValueNotifier<String?>(null);
-  final board = ValueNotifier<List<PieceType>>(List.filled(9, PieceType.empty));
+  final player = ValueNotifier<Player?>(null);
+  final board = ValueNotifier<List<SideType>>(List.filled(9, SideType.empty));
   final opponent = ValueNotifier<String?>(null);
   final ready = ValueNotifier<bool>(false);
   final wait = ValueNotifier<bool>(false);
-
-  String? player;
 
   void initWebSocket() {
     debugPrint("Connecting to websocket");
@@ -79,9 +80,27 @@ class OnlineController {
     wait.value = true;
   }
 
-  Future<void> createRoom() async {
+  void createRoom() async {
     ws.send(
-      jsonEncode(Message(type: ActionType.create).toJson()),
+      jsonEncode(
+        Message(
+          type: ActionType.create,
+          params: Params(
+            room: room.value,
+            player: player.value,
+          ),
+        ).toJson(),
+      ),
+    );
+  }
+
+  void joinRoom() async {
+    ws.send(
+      jsonEncode(
+        Message(
+          type: ActionType.join,
+        ).toJson(),
+      ),
     );
   }
 }

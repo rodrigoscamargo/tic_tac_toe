@@ -28,6 +28,12 @@ class OnlineModule extends Module {
     r.child('/', child: (_) => const OnlinePage());
     r.child('/create', child: (_) => const CreatePage());
     r.child('/join', child: (_) => const JoinPage());
-    r.child('/game', child: (_) => const OnlineGamePage());
+    r.child(
+      '/game',
+      child: (_) => OnlineGamePage(
+        player: r.args.data['player'],
+        room: r.args.data['room'],
+      ),
+    );
   }
 }
