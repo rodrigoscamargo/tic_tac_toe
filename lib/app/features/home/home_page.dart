@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             ),
             TicTacToeButton(
               text: 'Chame um amigo',
-              onTap: () => Modular.to.pushNamed('/online'),
+              onTap: () => Modular.to.pushNamed('/online/'),
             ),
           ],
         ),

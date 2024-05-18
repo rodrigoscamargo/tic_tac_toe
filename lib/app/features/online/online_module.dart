@@ -17,8 +17,8 @@ class OnlineModule extends Module {
     i.add(
       () => WebSocket(
         kIsWeb
-            ? Uri.parse('ws://localhost:1234')
-            : Uri.parse('ws://10.0.2.2:1234'),
+            ? Uri.parse('ws://localhost:1235')
+            : Uri.parse('ws://10.0.2.2:1235'),
       ),
     );
   }

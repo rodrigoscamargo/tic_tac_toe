@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class GameController {
+class OfflineGameController {
   final TicTacToe ticTacToe;
 
-  GameController({required this.ticTacToe});
+  OfflineGameController({required this.ticTacToe});
 
   final currentPiece = ValueNotifier<SideType>(SideType.empty);
   final board = ValueNotifier<List<SideType>>(List.filled(9, SideType.empty));

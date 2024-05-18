@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_appbar.dart';
 
-import 'game_controller.dart';
+import 'offline_game_controller.dart';
 
-class GamePage extends StatefulWidget {
-  const GamePage({super.key});
+class OfflineGamePage extends StatefulWidget {
+  const OfflineGamePage({super.key});
 
   @override
-  State<GamePage> createState() => _GamePageState();
+  State<OfflineGamePage> createState() => _OfflineGamePageState();
 }
 
-class _GamePageState extends State<GamePage> {
+class _OfflineGamePageState extends State<OfflineGamePage> {
   @override
   Widget build(BuildContext context) {
     return const Material(
@@ -25,20 +26,6 @@ class _GamePageState extends State<GamePage> {
   }
 }
 
-class TicTacToeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TicTacToeAppBar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder(
-      fallbackHeight: 100,
-    );
-  }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
 class TicTacToeBoard extends StatefulWidget {
   const TicTacToeBoard({super.key});
 
@@ -47,7 +34,7 @@ class TicTacToeBoard extends StatefulWidget {
 }
 
 class _TicTacToeBoardState extends State<TicTacToeBoard> {
-  final controller = GameController(ticTacToe: TicTacToeImpl());
+  final controller = OfflineGameController(ticTacToe: TicTacToeImpl());
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +49,13 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
               itemCount: board.length,
               itemBuilder: (context, index) {
                 if (board[index] == SideType.X) {
-                  return const Card(
-                    child: Text('X'),
+                  return Card(
+                    child: Text(SideType.X.name),
                   );
                 }
                 if (board[index] == SideType.O) {
-                  return const Card(
-                    child: Text('O'),
+                  return Card(
+                    child: Text(SideType.O.name),
                   );
                 }
 
