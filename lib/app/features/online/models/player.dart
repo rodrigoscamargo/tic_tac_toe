@@ -1,4 +1,4 @@
-import 'package:tic_tac_toe/app/features/game/game_controller.dart';
+import 'package:tic_tac_toe/app/features/offline/offline_game_controller.dart';
 
 class Player {
   final String id;
@@ -16,6 +16,18 @@ class Player {
         id: json['id'],
         name: json['name'],
         piece: SideType.fromString(json['piece']));
+  }
+
+  Player copyWith({
+    String? id,
+    String? name,
+    SideType? piece,
+  }) {
+    return Player(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      piece: piece ?? this.piece,
+    );
   }
 
   toJson() {

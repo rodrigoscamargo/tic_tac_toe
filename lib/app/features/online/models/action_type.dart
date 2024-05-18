@@ -3,7 +3,10 @@ enum ActionType {
   join('join'),
   leave('leave'),
   info('info'),
+  choose('choose'),
+  start('start'),
   ready('ready'),
+  readyToChoose('readyToChoose'),
   game('game');
 
   const ActionType(this.name);
@@ -15,7 +18,10 @@ enum ActionType {
         "join" => join,
         "leave" => leave,
         "info" => info,
+        "choose" => choose,
+        "start" => start,
         "ready" => ready,
+        "readyToChoose" => readyToChoose,
         "game" => game,
         _ => null
       };

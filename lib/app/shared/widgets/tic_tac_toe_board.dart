@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/app/features/game/game_controller.dart';
+import 'package:tic_tac_toe/app/features/offline/offline_game_controller.dart';
 
 class TicTacToeBoard extends StatefulWidget {
   const TicTacToeBoard({

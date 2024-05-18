@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TicTacToeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TicTacToeAppBar({
@@ -11,19 +12,32 @@ class TicTacToeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        roomCode
-      ],
+      children: [roomCode],
     );
   }
 
   Widget get roomCode {
-     
-     if(room == null){
+    if (room == null) {
       return const SizedBox();
-     }
+    }
 
-    return Row(children: [Text('Sala: $room')],);
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: [
+          Text(
+            'Sala: $room',
+            style: GoogleFonts.paytoneOne(
+              textStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 25.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override

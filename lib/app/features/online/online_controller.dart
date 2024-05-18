@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe/app/features/game/game_controller.dart';
+import 'package:tic_tac_toe/app/features/offline/offline_game_controller.dart';
 import 'package:tic_tac_toe/app/features/online/models/action_type.dart';
 import 'package:tic_tac_toe/app/features/online/models/message.dart';
 import 'package:tic_tac_toe/app/features/online/models/params.dart';
 import 'package:tic_tac_toe/app/features/online/models/play.dart';
 import 'package:tic_tac_toe/app/features/online/models/player.dart';
-import 'package:web_socket_client/web_socket_client.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class OnlineController {
-  final WebSocket ws;
+  final WebSocketChannel ws;
   final TicTacToe ticTacToe;
 
   OnlineController({
@@ -23,25 +23,25 @@ class OnlineController {
   final room = ValueNotifier<String?>(null);
   final player = ValueNotifier<Player?>(null);
   final board = ValueNotifier<List<SideType>>(List.filled(9, SideType.empty));
-  final opponent = ValueNotifier<String?>(null);
+  final opponent = ValueNotifier<Player?>(null);
+  final start = ValueNotifier<bool>(false);
   final ready = ValueNotifier<bool>(false);
+  final chooseSide = ValueNotifier<bool>(false);
   final wait = ValueNotifier<bool>(false);
 
   void initWebSocket() {
     debugPrint("Connecting to websocket");
 
-    ws.messages.listen((message) {
+    ws.stream.listen((message) {
       debugPrint('message: "$message"');
 
       Message messageData = Message.fromJson(jsonDecode(message));
 
       switch (messageData.type) {
         case ActionType.create:
-        // TODO: Handle this case.
         case ActionType.join:
-        // TODO: Handle this case.
         case ActionType.leave:
-        // TODO: Handle this case.
+        case ActionType.choose:
         case ActionType.info:
           {
             room.value = messageData.params!.room;
@@ -54,6 +54,18 @@ class OnlineController {
         case ActionType.ready:
           {
             ready.value = true;
+            opponent.value = messageData.params!.player;
+          }
+        case ActionType.readyToChoose:
+          {
+            ready.value = true;
+            chooseSide.value = true;
+            opponent.value = messageData.params!.player;
+          }
+        case ActionType.start:
+          {
+            opponent.value = messageData.params!.player;
+            start.value = true;
           }
       }
     });
@@ -66,7 +78,7 @@ class OnlineController {
   }
 
   void makeMove(int position) {
-    ws.send(
+    ws.sink.add(
       jsonEncode({
         'type': 'game',
         'params': {
@@ -81,7 +93,7 @@ class OnlineController {
   }
 
   void createRoom() async {
-    ws.send(
+    ws.sink.add(
       jsonEncode(
         Message(
           type: ActionType.create,
@@ -95,10 +107,25 @@ class OnlineController {
   }
 
   void joinRoom() async {
-    ws.send(
+    ws.sink.add(
       jsonEncode(
         Message(
           type: ActionType.join,
+        ).toJson(),
+      ),
+    );
+  }
+
+  void chooseASide(SideType type) {
+    player.value = player.value!.copyWith(piece: type);
+    ws.sink.add(
+      jsonEncode(
+        Message(
+          type: ActionType.choose,
+          params: Params(
+            room: room.value,
+            player: player.value,
+          ),
         ).toJson(),
       ),
     );
