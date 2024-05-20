@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_appbar.dart';
 
 import 'offline_game_controller.dart';
@@ -50,12 +51,32 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
               itemBuilder: (context, index) {
                 if (board[index] == SideType.X) {
                   return Card(
-                    child: Text(SideType.X.name),
+                    child: Center(
+                      child: Text(
+                        SideType.X.name,
+                        style: GoogleFonts.carterOne(
+                          textStyle: const TextStyle(
+                            fontSize: 50,
+                            color: Color(0XFFEB1751),
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 }
                 if (board[index] == SideType.O) {
                   return Card(
-                    child: Text(SideType.O.name),
+                    child: Center(
+                      child: Text(
+                        SideType.O.name,
+                        style: GoogleFonts.carterOne(
+                          textStyle: const TextStyle(
+                            fontSize: 50,
+                            color: Color(0XFFFFD032),
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 }
 
@@ -82,6 +103,11 @@ class TicTacToeImpl implements TicTacToe {
 
   @override
   SideType currentPiece;
+
+  @override
+  void setSide(SideType side) {
+    currentPiece = side;
+  }
 
   @override
   bool canMove(int index) {

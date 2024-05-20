@@ -22,8 +22,8 @@ class OnlineController {
 
   final room = ValueNotifier<String?>(null);
   final player = ValueNotifier<Player?>(null);
-  final board = ValueNotifier<List<SideType>>(List.filled(9, SideType.empty));
   final opponent = ValueNotifier<Player?>(null);
+  final board = ValueNotifier<List<SideType>>(List.filled(9, SideType.empty));
   final start = ValueNotifier<bool>(false);
   final ready = ValueNotifier<bool>(false);
   final chooseSide = ValueNotifier<bool>(false);
@@ -54,6 +54,7 @@ class OnlineController {
         case ActionType.ready:
           {
             ready.value = true;
+            wait.value = true;
             opponent.value = messageData.params!.player;
           }
         case ActionType.readyToChoose:
@@ -65,6 +66,14 @@ class OnlineController {
         case ActionType.start:
           {
             opponent.value = messageData.params!.player;
+            player.value = player.value!.copyWith(
+              piece: messageData.params!.player!.piece == SideType.O
+                  ? SideType.X
+                  : SideType.O,
+            );
+            ticTacToe.setSide(chooseSide.value
+                ? player.value!.piece!
+                : opponent.value!.piece!);
             start.value = true;
           }
       }
@@ -72,17 +81,28 @@ class OnlineController {
   }
 
   void game(Play play) {
-    ticTacToe.move(play.position);
+    board.value[play.position] = opponent.value!.piece!;
+    ticTacToe.board = board.value;
+
+    if (ticTacToe.verifyWinner()) {}
+    if (ticTacToe.verifyTie()) {}
 
     wait.value = false;
   }
 
   void makeMove(int position) {
+    board.value[position] = player.value!.piece!;
+    ticTacToe.board = board.value;
+    if (ticTacToe.verifyWinner()) {}
+    if (ticTacToe.verifyTie()) {}
     ws.sink.add(
       jsonEncode({
         'type': 'game',
         'params': {
           'room': room.value,
+          'player': {
+            'id': player.value!.id,
+          },
           'play': {
             'position': position,
           }
@@ -111,6 +131,10 @@ class OnlineController {
       jsonEncode(
         Message(
           type: ActionType.join,
+          params: Params(
+            room: room.value,
+            player: player.value,
+          ),
         ).toJson(),
       ),
     );

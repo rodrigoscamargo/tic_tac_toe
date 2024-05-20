@@ -16,7 +16,7 @@ class Params {
     return Params(
       room: json['room'],
       player: json['player'] != null? Player.fromJson(json['player']): null,
-      //play: json['play'] != null ? Play.fromJson(json['play']) : null,
+      play: json['play'] != null ? Play.fromJson(json['play']) : null,
     );
   }
 

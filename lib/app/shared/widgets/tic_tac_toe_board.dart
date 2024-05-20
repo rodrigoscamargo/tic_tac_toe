@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tic_tac_toe/app/features/offline/offline_game_controller.dart';
 
 class TicTacToeBoard extends StatefulWidget {
@@ -28,19 +29,43 @@ class _TicTacToeBoardState extends State<TicTacToeBoard> {
         itemCount: widget.board.length,
         itemBuilder: (context, index) {
           if (widget.board[index] == SideType.X) {
-            return Card(
-              child: Text(SideType.X.side),
+            return Container(
+              decoration: BoxDecoration(border: Border.all()),
+              child: Center(
+                child: Text(
+                  SideType.X.name,
+                  style: GoogleFonts.carterOne(
+                    textStyle: const TextStyle(
+                      fontSize: 50,
+                      color: Color(0XFFEB1751),
+                    ),
+                  ),
+                ),
+              ),
             );
           }
           if (widget.board[index] == SideType.O) {
-            return Card(
-              child: Text(SideType.O.side),
+            return Container(
+              decoration: BoxDecoration(border: Border.all()),
+              child: Center(
+                child: Text(
+                  SideType.O.name,
+                  style: GoogleFonts.carterOne(
+                    textStyle: const TextStyle(
+                      fontSize: 50,
+                      color: Color(0XFFFFD032),
+                    ),
+                  ),
+                ),
+              ),
             );
           }
 
           return InkWell(
-            onTap: !widget.wait! ? widget.makeMove(index) : () {},
-            child: const Card(),
+            onTap: widget.wait! ? () {} : () => widget.makeMove(index),
+            child: Container(
+              decoration: BoxDecoration(border: Border.all()),
+            ),
           );
         },
       ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:tic_tac_toe/app/features/online/models/player.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_buttom.dart';
 import 'package:tic_tac_toe/app/shared/widgets/tic_tac_toe_text_field.dart';
+import 'package:uuid/uuid.dart';
 
 class JoinPage extends StatefulWidget {
   const JoinPage({super.key});
@@ -41,7 +43,16 @@ class _JoinPageState extends State<JoinPage> {
             ),
             TicTacToeButton(
               text: 'Entrar na sala',
-              onTap: () => Modular.to.pushNamed('/online/game'),
+              onTap: () => Modular.to.pushNamed(
+                '/online/game',
+                arguments: {
+                  'room': roomTextEditingController.text,
+                  'player': Player(
+                    id: const Uuid().v4(),
+                    name: playerTextEditingController.text,
+                  )
+                },
+              ),
             ),
           ],
         ),

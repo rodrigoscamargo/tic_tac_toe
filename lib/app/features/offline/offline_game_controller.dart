@@ -35,6 +35,7 @@ abstract class TicTacToe {
   late List<SideType> board = List.filled(9, SideType.empty);
   SideType currentPiece = SideType.empty;
 
+  void setSide(SideType side);
   void move(int index);
   bool canMove(int index);
   void nextTurn();
