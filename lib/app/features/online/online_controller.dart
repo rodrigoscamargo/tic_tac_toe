@@ -17,7 +17,7 @@ class OnlineController {
     required this.ws,
     required this.ticTacToe,
   }) {
-    initWebSocket();
+    _initWebSocket();
   }
 
   final room = ValueNotifier<String?>(null);
@@ -29,8 +29,7 @@ class OnlineController {
   final chooseSide = ValueNotifier<bool>(false);
   final wait = ValueNotifier<bool>(false);
 
-  void initWebSocket() {
-    debugPrint("Connecting to websocket");
+  void _initWebSocket() {
 
     ws.stream.listen((message) {
       debugPrint('message: "$message"');
@@ -43,44 +42,24 @@ class OnlineController {
         case ActionType.leave:
         case ActionType.choose:
         case ActionType.info:
-          {
-            room.value = messageData.params!.room;
-          }
-
+          _info(messageData);
         case ActionType.game:
-          {
-            game(messageData.params!.play!);
-          }
+          _game(messageData.params!.play!);
         case ActionType.ready:
-          {
-            ready.value = true;
-            wait.value = true;
-            opponent.value = messageData.params!.player;
-          }
+          _ready(messageData);
         case ActionType.readyToChoose:
-          {
-            ready.value = true;
-            chooseSide.value = true;
-            opponent.value = messageData.params!.player;
-          }
+          _readyToChoose(messageData);
         case ActionType.start:
-          {
-            opponent.value = messageData.params!.player;
-            player.value = player.value!.copyWith(
-              piece: messageData.params!.player!.piece == SideType.O
-                  ? SideType.X
-                  : SideType.O,
-            );
-            ticTacToe.setSide(chooseSide.value
-                ? player.value!.piece!
-                : opponent.value!.piece!);
-            start.value = true;
-          }
+          _start(messageData);
+        case ActionType.gameover:
+          _gameover();
+        case ActionType.restart:
+          _restart();
       }
     });
   }
 
-  void game(Play play) {
+  void _game(Play play) {
     board.value[play.position] = opponent.value!.piece!;
     ticTacToe.board = board.value;
 
@@ -89,6 +68,37 @@ class OnlineController {
 
     wait.value = false;
   }
+
+  void _info(Message message) {
+    room.value = message.params!.room;
+  }
+
+  void _ready(Message message) {
+    ready.value = true;
+    wait.value = true;
+    opponent.value = message.params!.player;
+  }
+
+  void _readyToChoose(Message message) {
+    ready.value = true;
+    chooseSide.value = true;
+    opponent.value = message.params!.player;
+  }
+
+  void _start(Message message) {
+    opponent.value = message.params!.player;
+    player.value = player.value!.copyWith(
+      piece:
+          message.params!.player!.piece == SideType.O ? SideType.X : SideType.O,
+    );
+    ticTacToe.setSide(
+        chooseSide.value ? player.value!.piece! : opponent.value!.piece!);
+    start.value = true;
+  }
+
+  void _gameover() {}
+  
+  void _restart() {}
 
   void makeMove(int position) {
     board.value[position] = player.value!.piece!;

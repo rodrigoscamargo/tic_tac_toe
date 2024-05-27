@@ -7,7 +7,9 @@ enum ActionType {
   start('start'),
   ready('ready'),
   readyToChoose('readyToChoose'),
-  game('game');
+  game('game'),
+  gameover('gameover'),
+  restart('restart');
 
   const ActionType(this.name);
 
@@ -23,6 +25,8 @@ enum ActionType {
         "ready" => ready,
         "readyToChoose" => readyToChoose,
         "game" => game,
+        "gameover" => gameover,
+        "restart" => restart,
         _ => null
       };
 }
